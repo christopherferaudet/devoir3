@@ -1,0 +1,27 @@
+version: "3"
+services:
+  manager:
+    build: 
+      context: .
+      dockerfile: "Dockerfile.txt"
+    image: "manager:latest"
+    depends_on :
+      - db
+    links:
+      - db
+    environment:
+      - POSTGRES_USER="pguser"
+      - POSTGRES_PASSWORD="pgpassword"
+      - POSTGRES_DB=db:5432
+      - CSV_FILENAME="data.csv"
+
+  db:     
+    image: postgres:latest
+    hostname: "db"
+    ports: 
+    - "5432:5432"
+    environment:
+      - POSTGRES_USER="pguser"
+      - POSTGRES_PASSWORD="pgpassword"
+      - POSTGRES_DB="pgdb"
+
